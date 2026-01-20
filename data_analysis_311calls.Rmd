@@ -9,7 +9,9 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-#load libraries
+## Part 1: Data acquisition and cleaning
+
+Load libraries
 
 ```{r}
 library(tidyverse)
@@ -21,7 +23,7 @@ library(tidyr)
 library(leaflet)
 ```
 
-#import 311 data sets from 2015-2024,standardize titles, and initial cleaning of data
+Import 311 data sets from 2015-2024, standardize titles, and initial cleaning of data
 
 ```{r}
 call_2015<- read.csv("data/All_Service_Requests_-_2015.csv") %>% 
@@ -44,4 +46,28 @@ call_2023 <- read.csv("data/All_Service_Requests_-_2023.csv") %>%
   clean_names()
 call_2024 <- read.csv("data/All_Service_Requests_-_2024.csv") %>% 
   clean_names()
+```
+
+Figure out what columns are necessary to keep
+
+```{r}
+head(call_2015)
+```
+
+Get rid of repetitive information within the data
+
+```{r}
+#adddate and serviceorderdate are the same, along with x and x coordinate etc. I will also get rid of city and state, because we know where the data is coming from. I am also getting rid of the rows created, edited and se_anno_cad_data, and object ID because it is not included in the original meta data.
+
+clean_2015 <- select(call_2015, -c(1, 2,5,6,14,30,31,32,33))
+#repeat this process for all data sets
+clean_2016 <- select(call_2016, -c(1, 2,5,6,14,30,31,32,33))
+clean_2017 <- select(call_2017, -c(1, 2,5,6,14,30,31,32,33))
+clean_2018 <- select(call_2018, -c(1, 2,5,6,14,30,31,32,33))
+clean_2019 <- select(call_2019, -c(1, 2,5,6,14,30,31,32,33))
+clean_2020 <- select(call_2020, -c(1, 2,5,6,14,30,31,32,33))
+clean_2021 <- select(call_2021, -c(1, 2,5,6,14,30,31,32,33))
+clean_2022 <- select(call_2022, -c(1, 2,5,6,14,30,31,32,33))
+clean_2023 <- select(call_2023, -c(1, 2,5,6,14,30,31,32,33))
+clean_2024 <- select(call_2024, -c(1, 2,5,6,14,30,31,32,33))
 ```
