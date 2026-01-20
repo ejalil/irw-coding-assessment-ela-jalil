@@ -47,3 +47,18 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+#Ignore large file
+data/311_City_Service_Requests_in_2014.csv
+data/311_City_Service_Requests_in_2015.csv
+data/311_City_Service_Requests_in_2016.csv
+data/311_City_Service_Requests_in_2017.csv
+data/311_City_Service_Requests_in_2018.csv
+data/311_City_Service_Requests_in_2019.csv
+data/311_City_Service_Requests_in_2020.csv
+data/311_City_Service_Requests_in_2021.csv
+data/311_City_Service_Requests_in_2022.csv
+data/311_City_Service_Requests_in_2023.csv
+data/311_City_Service_Requests_in_2024.csv
+
+
