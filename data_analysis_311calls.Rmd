@@ -9,4 +9,39 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+#load libraries
 
+```{r}
+library(tidyverse)
+library(janitor)
+library(dplyr)
+library(DT)
+library(lubridate)
+library(tidyr)
+library(leaflet)
+```
+
+#import 311 data sets from 2015-2024,standardize titles, and initial cleaning of data
+
+```{r}
+call_2015<- read.csv("data/All_Service_Requests_-_2015.csv") %>% 
+  clean_names()
+call_2016 <- read.csv("data/All_Service_Requests_-_2016.csv") %>% 
+  clean_names()
+call_2017 <- read.csv("data/311_City_Service_Requests_in_2017.csv") %>% 
+  clean_names()
+call_2018 <-read.csv("data/311_City_Service_Requests_in_2018.csv") %>% 
+  clean_names()
+call_2019 <- read.csv("data/311_City_Service_Requests_in_2019.csv") %>% 
+  clean_names()
+call_2020<- read.csv("data/All_Service_Requests_-_2020.csv") %>% 
+  clean_names()
+call_2021 <- read.csv("data/311_City_Service_Requests_in_2021.csv") %>% 
+  clean_names()
+call_2022 <- read.csv("data/311_City_Service_Requests_in_2022.csv") %>% 
+  clean_names()
+call_2023 <- read.csv("data/All_Service_Requests_-_2023.csv") %>% 
+  clean_names()
+call_2024 <- read.csv("data/All_Service_Requests_-_2024.csv") %>% 
+  clean_names()
+```
