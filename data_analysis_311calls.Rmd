@@ -111,6 +111,6 @@ clean_2024 %>%
   group_by(zipcode) %>% 
   count() %>% 
   arrange(desc(n))
-#Zipcodes 20002 (6,0096 calls), 20011(46,137 calls), 20001 (33,959 calls) and 20019 (33,188 calls) had the highest concentration of 311 calls in 2024. 
+#Zipcodes 20002 (6,0096 calls), 20011(46,137 calls), 20001 (33,959 calls), 20019 (33,188 calls) and 20003 (27,582 calls) had the highest concentration of 311 calls in 2024. I would like to see how closely located these zipcodes are, and what the poverty/population breakdown of those areas are. 
 
 ```
