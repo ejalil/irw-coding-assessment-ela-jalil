@@ -57,10 +57,11 @@ head(call_2015)
 Get rid of repetitive information within the data
 
 ```{r}
-#adddate and serviceorderdate are the same, along with x and x coordinate etc. I will also get rid of city and state, because we know where the data is coming from. I am also getting rid of the rows created, edited and se_anno_cad_data, and object ID because it is not included in the original meta data.
+#adddate and serviceorderdate are the same, along with x and x coordinate etc. I will also get rid of city and state, because we know where the data is coming from. I am also getting rid of the rows created, edited and se_anno_cad_data, and object ID because it is not included in the original meta data. I also got rid of rows with NA values. 
 
 clean_2015 <- select(call_2015, -c(1, 2,5,6,14,20,22,30,31,32,33))
 #repeat this process for all data sets with adjustments
+
 clean_2016 <- select(call_2016, -c(1, 2,5,6,14,18,19,20,22,30,31,32,33))
 clean_2017 <- select(call_2017, -c(1, 2,5,6,14,18,19,20,22,30,31,32,33,34))
 clean_2018 <- select(call_2018, -c(1, 2,5,6,14,18,19,20,22,30,31,32,33,34))
@@ -104,7 +105,7 @@ nrow(clean_2015)
 
 ```
 
-Finding the most common zip codes that are calling 311 calls in 2024
+Finding the most common zip codes that are calling 311 calls in 2024.
 
 ```{r}
 clean_2024 %>% 
@@ -114,3 +115,29 @@ clean_2024 %>%
 #Zipcodes 20002 (6,0096 calls), 20011(46,137 calls), 20001 (33,959 calls), 20019 (33,188 calls) and 20003 (27,582 calls) had the highest concentration of 311 calls in 2024. I would like to see how closely located these zipcodes are, and what the poverty/population breakdown of those areas are. 
 
 ```
+
+Finding the most common complaint in 2024.
+
+```{r}
+#Used this to create an index of what each service code actually means
+unique_codes <- unique(clean_2024[, c("servicecode", "servicecodedescription")])
+
+clean_2024 %>% 
+  group_by(servicecode) %>% 
+  count() %>% 
+  arrange(desc(n))
+#The most common 311 calls in 2024 were S0031 - Bulk Collection (67,090 calls), S0261 - Parking Enforcement (57,304 calls), S0477 - Scheduled Yard Waste (31,672 calls), S0441 - Trash Collection Missed (20,635 calls), and S0311 - Resident Parking Permit (16,883 calls). 
+```
+
+Finding what department was called the most often in 2024
+
+```{r}
+clean_2024 %>% 
+  group_by(organizationacronym) %>% 
+  count() %>% 
+  arrange(desc(n))
+#The organizations that recieved the most 311 calls in 2024 were the Department of Public Works (309,963 calls), District Department of Transportation (63,634 calls), Department of Health (17,260 calls), Office of Unified Communications (16,872 calls) and The Department of Motor Vehicles (6,053 calls). 
+#Question: Do certain departments get increased funding to address 311 calls? 
+```
+
+After looking into 2024 data, I want to narrow the scope of my investigation.
