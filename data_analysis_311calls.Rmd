@@ -212,12 +212,18 @@ zip_20002_2024 <- clean_2024 %>%
 
 #I want to see if there are any repeated streets 
 clean_2024 %>% 
-  filter(zipcode=="20002") %>% 
+filter(zipcode=="20002") %>% 
   group_by(streetaddress) %>% 
   count() %>% 
   arrange(desc(n))
-#There were five streets in 2024 that were called in complaints more than 100 times, with 130 M Street NE calling in a complaint 197 times. 
+#There were five streets in 2024 that were called in complaints more than 100 times, with 130 M Street NE calling in a complaint 197 times within the zipcode 20002.
 
+#I now want to see if this is the street that had the most complaints overall
+all_street24 <-clean_2024 %>% 
+  group_by(streetaddress) %>% 
+  count() %>% 
+  arrange(desc(n))
+#2720 MARTIN LUTHER KING JR AVENUE SE made the most 311 calls in 2024, with 12297 calls. 
 ```
 
 I want to see what type of complaints that this street made, and if they are repeated over the years.
@@ -229,15 +235,43 @@ street_2024 <-clean_2024 %>%
   count() %>% 
   arrange(desc(n))
 #The majority of the complaints centered around parking enforcement. 
+#I will now see over the past three years if this street has made it to the top of the complaints.
+all_street23 <-clean_2023 %>% 
+  group_by(streetaddress) %>% 
+  count() %>% 
+  arrange(desc(n))
+#In 2023, 2720 Martin Luther King Jr Avenue SE made the most 311 calls, with 14,156 calls. 
+all_street22 <-clean_2022 %>% 
+  group_by(streetaddress) %>% 
+  count() %>% 
+  arrange(desc(n))
+#In 2022, 2720 Martin Luther King Jr Ave SE made the most 311 calls, with 6914 calls. 
+all_street21 <-clean_2021 %>% 
+  group_by(streetaddress) %>% 
+  count() %>% 
+  arrange(desc(n))
+#In 2021, 2720 Martin Luther King Jr Ave SE made the most 311 calls with 11917 calls. 
+#I will also look back 10 years from 2024 to see if this pattern continued previously.
+all_street15 <-clean_2015 %>% 
+  group_by(streetaddress) %>% 
+  count() %>% 
+  arrange(desc(n))
+#That street was in the top six most called. 
 ```
 
-Exporting data for visualizations
+```{r}
+
+```
+
+I decided to group by Ward as well so that it made a clear visualization instead of by just zip code.
 
 ```{r}
-data_wrapper <- clean_2024 %>%
-  group_by(zipcode) %>% 
-  count() 
- write.csv(data_wrapper,"~/Downloads/data_wrapper.csv", row.names = FALSE)
+data_wrapper2 <- clean_2024 %>% 
+  group_by(ward) %>% 
+  count()
+#Export this for data wrapper
+write.csv(data_wrapper2,"~/Downloads/data_wrapper2.csv", row.names = FALSE)
+
 ```
 
 #make a zip code map where each different 311 call is a different color and can have a hover graph when clicked, If I can't figure this out in R I definitely can in Flourish.
