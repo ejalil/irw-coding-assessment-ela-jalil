@@ -197,9 +197,42 @@ zip_wide <- zip_long %>%
     values_from = n,
     values_fill = 0
   )
-#There have been seven zip codes that have been called consistently over the past 10 years: 20002, 20001, 20011, 20019,20009,20032 and 20003. These zip codes:20002, 20001, 20011, 20019 were found in the top five zip codes for the past 10 years. Zip code 20003 has emerged as a part of the top five since 2023. 
+#There have been seven zip codes that have been called consistently over the past 10 years: 20002, 20001, 20011, 20019,20009,20032 and 20003. These zip codes:20002, 20001, 20011, 20019 were found in the top five zip codes for the past 10 years. Zip code 20003 has emerged as a part of the top five since 2023. Zip code 20002 had the highest amount of calls across all 10 years. 
+```
+
+I will now explore what type of calls are occurring in zip code 20002.
+
+```{r}
+zip_20002_2024 <- clean_2024 %>% 
+  filter(zipcode=="20002") %>% 
+  group_by(servicecodedescription) %>% 
+  count() %>% 
+  arrange(desc(n))
+#Bulk Collection (97482), Parking Enforcement (84413), Scheduled Yard Waste (52514), Illegal Dumping (36495), Residential Parking Permit Violation (3456) were the five highest services requested in 2024. 
+
+#I want to see if there are any repeated streets 
+clean_2024 %>% 
+  filter(zipcode=="20002") %>% 
+  group_by(streetaddress) %>% 
+  count() %>% 
+  arrange(desc(n))
+#There were five streets in 2024 that were called in complaints more than 100 times, with 130 M Street NE calling in a complaint 197 times. 
+
+```
+
+I want to see what type of complaints that this street made, and if they are repeated over the years.
+
+```{r}
+street_2024 <-clean_2024 %>% 
+  filter(streetaddress=="130 M STREET NE") %>% 
+  group_by(servicecodedescription) %>% 
+  count() %>% 
+  arrange(desc(n))
+#The majority of the complaints centered around parking enforcement -
 ```
 
 #make a zip code map where each different 311 call is a different color and can have a hover graph when clicked, If I can't figure this out in R I definitely can in Flourish.
 
 #I tried to combine all of the rows together and it did not work
+
+#University areas
