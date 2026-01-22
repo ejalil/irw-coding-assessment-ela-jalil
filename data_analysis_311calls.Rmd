@@ -140,4 +140,66 @@ clean_2024 %>%
 #Question: Do certain departments get increased funding to address 311 calls? 
 ```
 
-After looking into 2024 data, I want to narrow the scope of my investigation.
+After looking into 2024 data, I want to narrow the scope of my investigation. I will now be focusing on the five zip codes that had the highest concentration of calls in 2024.
+
+I first want to see if the five zip codes remained consistent over the past decade.
+
+```{r}
+zip_2024 <-clean_2024 %>%
+  count(zipcode, sort = TRUE) %>%
+  slice_max(n, n = 5)%>%
+  mutate(year = 2024)
+zip_2023 <-clean_2023 %>%
+  count(zipcode, sort = TRUE) %>%
+  slice_max(n, n = 5)%>% 
+  mutate(year = 2023)
+zip_2022 <-clean_2022 %>%
+  count(zipcode, sort = TRUE) %>%
+  slice_max(n, n = 5)%>% 
+  mutate(year = 2022)
+zip_2021 <-clean_2021 %>%
+  count(zipcode, sort = TRUE) %>%
+  slice_max(n, n = 5)%>% 
+  mutate(year = 2021)
+zip_2020 <-clean_2020 %>%
+  count(zipcode, sort = TRUE) %>%
+  slice_max(n, n = 5)%>%
+  mutate(year = 2020)
+zip_2019 <-clean_2019 %>%
+  count(zipcode, sort = TRUE) %>%
+  slice_max(n, n = 5)%>%
+  mutate(year = 2019)
+zip_2018 <-clean_2018 %>%
+  count(zipcode, sort = TRUE) %>%
+  slice_max(n, n = 5)%>%
+  mutate(year = 2018)
+zip_2017 <-clean_2017 %>%
+  count(zipcode, sort = TRUE) %>%
+  slice_max(n, n = 5)%>%
+  mutate(year = 2017)
+zip_2016 <-clean_2016 %>%
+  count(zipcode, sort = TRUE) %>%
+  slice_max(n, n = 5)%>%
+  mutate(year = 2016)
+zip_2015<-clean_2015 %>%
+  count(zipcode, sort = TRUE) %>%
+  slice_max(n, n = 5)%>%
+  mutate(year = 2015)
+#Combine all of the data sets together 
+zip_long <- bind_rows(
+  zip_2015, zip_2016, zip_2017, zip_2018, zip_2019,
+  zip_2020, zip_2021, zip_2022, zip_2023, zip_2024
+)
+#Arrange the data like I want to
+zip_wide <- zip_long %>%
+  pivot_wider(
+    names_from = year,
+    values_from = n,
+    values_fill = 0
+  )
+#There have been seven zip codes that have been called consistently over the past 10 years: 20002, 20001, 20011, 20019,20009,20032 and 20003. These zip codes:20002, 20001, 20011, 20019 were found in the top five zip codes for the past 10 years. Zip code 20003 has emerged as a part of the top five since 2023. 
+```
+
+#make a zip code map where each different 311 call is a different color and can have a hover graph when clicked, If I can't figure this out in R I definitely can in Flourish.
+
+#I tried to combine all of the rows together and it did not work
