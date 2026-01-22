@@ -228,7 +228,7 @@ street_2024 <-clean_2024 %>%
   group_by(servicecodedescription) %>% 
   count() %>% 
   arrange(desc(n))
-#The majority of the complaints centered around parking enforcement -
+#The majority of the complaints centered around parking enforcement. 
 ```
 
 #make a zip code map where each different 311 call is a different color and can have a hover graph when clicked, If I can't figure this out in R I definitely can in Flourish.
