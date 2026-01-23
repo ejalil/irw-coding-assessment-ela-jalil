@@ -21,6 +21,9 @@ library(DT)
 library(lubridate)
 library(tidyr)
 library(leaflet)
+library(sf)
+library(ggplot2)
+
 ```
 
 Import 311 data sets from 2015-2024, standardize titles, and initial cleaning of data
@@ -245,6 +248,12 @@ all_street22 <-clean_2022 %>%
   group_by(streetaddress) %>% 
   count() %>% 
   arrange(desc(n))
+
+```
+
+I now want to shift focus to the street that got the most 311 calls overall.
+
+```{r}
 #In 2022, 2720 Martin Luther King Jr Ave SE made the most 311 calls, with 6914 calls. 
 all_street21 <-clean_2021 %>% 
   group_by(streetaddress) %>% 
@@ -257,13 +266,52 @@ all_street15 <-clean_2015 %>%
   count() %>% 
   arrange(desc(n))
 #That street was in the top six most called. 
+#I want to see how long this street has been number one
+all_street20 <-clean_2020 %>% 
+  group_by(streetaddress) %>% 
+  count() %>% 
+  arrange(desc(n))
+#The same street had the most 311 calls - 11,381.
+all_street19 <-clean_2019 %>% 
+  group_by(streetaddress) %>% 
+  count() %>% 
+  arrange(desc(n))
+#Same street had the most 311 calls - 5,980. 
+all_street18 <-clean_2018 %>% 
+  group_by(streetaddress) %>% 
+  count() %>% 
+  arrange(desc(n))
+#Was ranked 11 of most 311 calls. 
+all_street17 <-clean_2017 %>% 
+  group_by(streetaddress) %>% 
+  count() %>% 
+  arrange(desc(n))
+#Had the second highest number of calls - 749. 
 ```
+
+I want to see what type of complaints that are being made on this street.
 
 ```{r}
+mlk2024 <- clean_2024 %>% 
+  filter(streetaddress == "2720 MARTIN LUTHER KING JR AVENUE SE") %>% 
+  count(servicecodedescription, sort = TRUE) %>% 
+  slice_max(n, n = 8)
 
+ 
+#Highest 311 call is DC Government Information, 12,048. 
+clean_2023 %>% 
+  filter(streetaddress=="2720 MARTIN LUTHER KING JR AVENUE SE") %>% 
+  group_by(servicecodedescription) %>% 
+  count() %>% 
+  arrange(desc(n))
+#Highest 311 call is DC Government Information, 13,931. 
+
+#Question: why is this the most common service being asked for in this area?
 ```
 
-I decided to group by Ward as well so that it made a clear visualization instead of by just zip code.
+## Part 3: Visualizations
+
+I decided to group by ward so that it made a clear visualization on data wrapper.
 
 ```{r}
 data_wrapper2 <- clean_2024 %>% 
@@ -272,6 +320,37 @@ data_wrapper2 <- clean_2024 %>%
 #Export this for data wrapper
 write.csv(data_wrapper2,"~/Downloads/data_wrapper2.csv", row.names = FALSE)
 
+```
+
+Making a bar chart in R to represent the most common
+
+```{r}
+ggplot(mlk2024, aes(x = reorder(servicecodedescription, n), y = n)) +
+  geom_col(fill = "steelblue") +
+  coord_flip() +
+  scale_y_log10(labels = scales::comma) +
+  labs(
+    title = "Top 311 Call Types For 2720 Martin Luther King Jr Ave SE",
+    subtitle = "The y-axis is log-scaled to account for skewed call data ",
+    y = "Number of calls (log scale)",
+    x = "Service type"
+  ) +
+  theme_minimal(base_size = 12)
+
+p <- last_plot() +
+  theme(
+    plot.background  = element_rect(fill = "white", color = NA),
+    panel.background = element_rect(fill = "white", color = NA)
+  )
+
+ggsave(
+  filename = "311_calls_by_service.png",
+  plot = p,
+  width = 8,
+  height = 6,
+  dpi = 300,
+  bg = "white"
+)
 ```
 
 #make a zip code map where each different 311 call is a different color and can have a hover graph when clicked, If I can't figure this out in R I definitely can in Flourish.
