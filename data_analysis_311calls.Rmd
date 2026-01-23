@@ -273,9 +273,3 @@ data_wrapper2 <- clean_2024 %>%
 write.csv(data_wrapper2,"~/Downloads/data_wrapper2.csv", row.names = FALSE)
 
 ```
-
-#make a zip code map where each different 311 call is a different color and can have a hover graph when clicked, If I can't figure this out in R I definitely can in Flourish.
-
-#I tried to combine all of the rows together and it did not work
-
-#University areas
