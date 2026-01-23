@@ -325,36 +325,31 @@ write.csv(data_wrapper2,"~/Downloads/data_wrapper2.csv", row.names = FALSE)
 Making a bar chart in R to represent the most common
 
 ```{r}
-ggplot(mlk2024, aes(x = reorder(servicecodedescription, n), y = n)) +
-  geom_col(fill = "steelblue") +
-  coord_flip() +
-  scale_y_log10(labels = scales::comma) +
+zip_long %>%
+  ggplot(aes(
+    x = factor(year),
+    y = n,
+    group = zipcode,
+    color = factor(zipcode)
+  )) +
+  geom_line(linewidth = 0.8, alpha = 0.8) +
+  scale_color_viridis_d(option = "turbo") +
   labs(
-    title = "Top 311 Call Types For 2720 Martin Luther King Jr Ave SE",
-    subtitle = "The y-axis is log-scaled to account for skewed call data ",
-    y = "Number of calls (log scale)",
-    x = "Service type"
+    x = "Year",
+    y = "Number of 311 Calls",
+    color = "ZIP Code",
+    title = "Five Zip Codes With Highest 311 ",
+    subtitle = "Each line represents a zip code, with lines ending where the zip code is no longer in the top five.",
+    caption = "Source: DC Open Data (311 Service Requests 2015-2024)"
   ) +
-  theme_minimal(base_size = 12)
-
-p <- last_plot() +
+  theme_minimal() +
   theme(
-    plot.background  = element_rect(fill = "white", color = NA),
-    panel.background = element_rect(fill = "white", color = NA)
+    legend.position = "right",
+    legend.text = element_text(size = 8)
   )
 
-ggsave(
-  filename = "311_calls_by_service.png",
-  plot = p,
-  width = 8,
-  height = 6,
-  dpi = 300,
-  bg = "white"
-)
 ```
 
-#make a zip code map where each different 311 call is a different color and can have a hover graph when clicked, If I can't figure this out in R I definitely can in Flourish.
-
-#I tried to combine all of the rows together and it did not work
-
-#University areas
+```{r}
+tryCatch({while (T) dev.off()}, error = \(e) NULL)
+```
