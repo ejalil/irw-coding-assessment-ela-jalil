@@ -307,6 +307,31 @@ clean_2023 %>%
 #Highest 311 call is DC Government Information, 13,931. 
 ```
 
+I want to see if the most common services are found throughout the years - I will do a three year analysis.
+
+```{r}
+clean_2023 %>% 
+  group_by(servicecodedescription) %>% 
+  count() %>% 
+  arrange(desc(n))
+#Bulk collection (67,865 calls), parking enforcement (57,413 calls), scheduled yard waste (27,647 calls), rodent inspection and treatment (17,831 calls) and illegal dumping (16,842 calls).
+
+clean_2022 %>% 
+  group_by(servicecodedescription) %>% 
+  count() %>% 
+  arrange(desc(n))
+#Bulk Collection (67,924 calls), parking enforcement (53,549 calls), trash collection-missed (18,062 calls), scheduled yard waste (18,017 calls) and illegal dumping (13,978 calls). 
+
+clean_2021 %>% 
+  group_by(servicecodedescription) %>% 
+  count() %>% 
+  arrange(desc(n))
+#Bulk Collection (69,714 calls), parking enforcement (41,432 calls), trash collection missed (16, 161 calls), abandoned vehicle - on public property (14,808 calls) and illegal dumping (14, 084 calls). 
+
+#It looks like the same calls are the most frequent to 311. 
+#Question: Is there a better way to call for bulk collection?
+```
+
 ## Part 3: Visualizations
 
 I decided to group by ward so that it made a clear visualization on data wrapper.
