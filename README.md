@@ -3,7 +3,7 @@
 **Author:** Ela Jalil
 
 ## Project Description
-This project analyzes Washington, DC 311 service request data across zip codes, service types and departments. This analysis inlcudes a 10-year analysis from 2015-2024, and two data visualizations. 
+This project analyzes Washington, DC 311 service request data across zip codes, service types and departments. The analysis includes a 10-year analysis from 2015-2024, and two data visualizations. 
 
 ## How to Run the Code
 1. Clone or download this repository.
