@@ -203,7 +203,7 @@ zip_wide <- zip_long %>%
 #There have been seven zip codes that have been called consistently over the past 10 years: 20002, 20001, 20011, 20019,20009,20032 and 20003. These zip codes:20002, 20001, 20011, 20019 were found in the top five zip codes for the past 10 years. Zip code 20003 has emerged as a part of the top five since 2023. Zip code 20002 had the highest amount of calls across all 10 years. 
 ```
 
-I will now explore what type of calls are occurring in zip code 20002.
+I will now explore what type of calls are occurring in zip code 20002 - which had the highest amount of calls.
 
 ```{r}
 zip_20002_2024 <- clean_2024 %>% 
@@ -251,7 +251,7 @@ all_street22 <-clean_2022 %>%
 
 ```
 
-I now want to shift focus to the street that got the most 311 calls overall.
+I now want to shift focus to the street that got the most 311 calls overall. I did this analysis on the most common street, but when I performed further research I realized that it was the office building of the Office of Unified Communication - which is in charge of managing 311 calls. This made sense to why the majority of service calls were centered around DC Govt Info.
 
 ```{r}
 #In 2022, 2720 Martin Luther King Jr Ave SE made the most 311 calls, with 6914 calls. 
@@ -305,8 +305,6 @@ clean_2023 %>%
   count() %>% 
   arrange(desc(n))
 #Highest 311 call is DC Government Information, 13,931. 
-
-#Question: why is this the most common service being asked for in this area?
 ```
 
 ## Part 3: Visualizations
@@ -322,7 +320,7 @@ write.csv(data_wrapper2,"~/Downloads/data_wrapper2.csv", row.names = FALSE)
 
 ```
 
-Making a bar chart in R to represent the most common
+Making a line chart to show how certain zip codes are called more frequently than others.
 
 ```{r}
 zip_long %>%
@@ -350,6 +348,13 @@ zip_long %>%
 
 ```
 
+I want to see if there is a day that had the most calls
+
 ```{r}
-tryCatch({while (T) dev.off()}, error = \(e) NULL)
+blank <-clean_2024
+blank$serviceorderdate2 <-as.Date(blank$serviceorderdate)
+#fix this but if it takes too long just nix it
+blank$serviceorderdate2 <- lubridate::dmy_hm(blank$serviceorderdate)
+#This creates a new column for year
+blank$year <- lubridate::year(blank$serviceorderdate2)
 ```
