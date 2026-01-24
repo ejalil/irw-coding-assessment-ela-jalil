@@ -200,7 +200,7 @@ zip_wide <- zip_long %>%
     values_from = n,
     values_fill = 0
   )
-#There have been seven zip codes that have been called consistently over the past 10 years: 20002, 20001, 20011, 20019,20009,20032 and 20003. These zip codes:20002, 20001, 20011, 20019 were found in the top five zip codes for the past 10 years. Zip code 20003 has emerged as a part of the top five since 2023. Zip code 20002 had the highest amount of calls across all 10 years. 
+#There have been seven zip codes that have been called consistently over the past 10 years: 20002, 20001, 20011, 20019,20009,20032 and 20003. These zip codes:20002, 20001, 20011, 20019 were found in the top five zip codes for the past 10 years. Zip code 20003 has emerged as a part of the top five since 2023. Zip code 20002 had the highest amount of calls across all 10 years. Go to the data visualization created to see this represented. 
 ```
 
 I will now explore what type of calls are occurring in zip code 20002 - which had the highest amount of calls.
@@ -346,15 +346,4 @@ zip_long %>%
     legend.text = element_text(size = 8)
   )
 
-```
-
-I want to see if there is a day that had the most calls
-
-```{r}
-blank <-clean_2024
-blank$serviceorderdate2 <-as.Date(blank$serviceorderdate)
-#fix this but if it takes too long just nix it
-blank$serviceorderdate2 <- lubridate::dmy_hm(blank$serviceorderdate)
-#This creates a new column for year
-blank$year <- lubridate::year(blank$serviceorderdate2)
 ```
