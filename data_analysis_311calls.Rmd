@@ -200,10 +200,10 @@ zip_wide <- zip_long %>%
     values_from = n,
     values_fill = 0
   )
-#There have been seven zip codes that have been called consistently over the past 10 years: 20002, 20001, 20011, 20019,20009,20032 and 20003. These zip codes:20002, 20001, 20011, 20019 were found in the top five zip codes for the past 10 years. Zip code 20003 has emerged as a part of the top five since 2023. Zip code 20002 had the highest amount of calls across all 10 years. 
+#There have been seven zip codes that have been called consistently over the past 10 years: 20002, 20001, 20011, 20019,20009,20032 and 20003. These zip codes:20002, 20001, 20011, 20019 were found in the top five zip codes for the past 10 years. Zip code 20003 has emerged as a part of the top five since 2023. Zip code 20002 had the highest amount of calls across all 10 years. Go to the data visualization created to see this represented. 
 ```
 
-I will now explore what type of calls are occurring in zip code 20002.
+I will now explore what type of calls are occurring in zip code 20002 - which had the highest amount of calls.
 
 ```{r}
 zip_20002_2024 <- clean_2024 %>% 
@@ -251,7 +251,7 @@ all_street22 <-clean_2022 %>%
 
 ```
 
-I now want to shift focus to the street that got the most 311 calls overall.
+I now want to shift focus to the street that got the most 311 calls overall. I did this analysis on the most common street, but when I performed further research I realized that it was the office building of the Office of Unified Communication - which is in charge of managing 311 calls. This made sense to why the majority of service calls were centered around DC Govt Info.
 
 ```{r}
 #In 2022, 2720 Martin Luther King Jr Ave SE made the most 311 calls, with 6914 calls. 
@@ -305,8 +305,31 @@ clean_2023 %>%
   count() %>% 
   arrange(desc(n))
 #Highest 311 call is DC Government Information, 13,931. 
+```
 
-#Question: why is this the most common service being asked for in this area?
+I want to see if the most common services are found throughout the years - I will do a three year analysis.
+
+```{r}
+clean_2023 %>% 
+  group_by(servicecodedescription) %>% 
+  count() %>% 
+  arrange(desc(n))
+#Bulk collection (67,865 calls), parking enforcement (57,413 calls), scheduled yard waste (27,647 calls), rodent inspection and treatment (17,831 calls) and illegal dumping (16,842 calls).
+
+clean_2022 %>% 
+  group_by(servicecodedescription) %>% 
+  count() %>% 
+  arrange(desc(n))
+#Bulk Collection (67,924 calls), parking enforcement (53,549 calls), trash collection-missed (18,062 calls), scheduled yard waste (18,017 calls) and illegal dumping (13,978 calls). 
+
+clean_2021 %>% 
+  group_by(servicecodedescription) %>% 
+  count() %>% 
+  arrange(desc(n))
+#Bulk Collection (69,714 calls), parking enforcement (41,432 calls), trash collection missed (16, 161 calls), abandoned vehicle - on public property (14,808 calls) and illegal dumping (14, 084 calls). 
+
+#It looks like the same calls are the most frequent to 311. 
+#Question: Is there a better way to call for bulk collection?
 ```
 
 ## Part 3: Visualizations
@@ -322,39 +345,30 @@ write.csv(data_wrapper2,"~/Downloads/data_wrapper2.csv", row.names = FALSE)
 
 ```
 
-Making a bar chart in R to represent the most common
+Making a line chart to show how certain zip codes are called more frequently than others.
 
 ```{r}
-ggplot(mlk2024, aes(x = reorder(servicecodedescription, n), y = n)) +
-  geom_col(fill = "steelblue") +
-  coord_flip() +
-  scale_y_log10(labels = scales::comma) +
+zip_long %>%
+  ggplot(aes(
+    x = factor(year),
+    y = n,
+    group = zipcode,
+    color = factor(zipcode)
+  )) +
+  geom_line(linewidth = 0.8, alpha = 0.8) +
+  scale_color_viridis_d(option = "turbo") +
   labs(
-    title = "Top 311 Call Types For 2720 Martin Luther King Jr Ave SE",
-    subtitle = "The y-axis is log-scaled to account for skewed call data ",
-    y = "Number of calls (log scale)",
-    x = "Service type"
+    x = "Year",
+    y = "Number of 311 Calls",
+    color = "ZIP Code",
+    title = "Five Zip Codes With Highest 311 ",
+    subtitle = "Each line represents a zip code, with lines ending where the zip code is no longer in the top five.",
+    caption = "Source: DC Open Data (311 Service Requests 2015-2024)"
   ) +
-  theme_minimal(base_size = 12)
-
-p <- last_plot() +
+  theme_minimal() +
   theme(
-    plot.background  = element_rect(fill = "white", color = NA),
-    panel.background = element_rect(fill = "white", color = NA)
+    legend.position = "right",
+    legend.text = element_text(size = 8)
   )
 
-ggsave(
-  filename = "311_calls_by_service.png",
-  plot = p,
-  width = 8,
-  height = 6,
-  dpi = 300,
-  bg = "white"
-)
 ```
-
-#make a zip code map where each different 311 call is a different color and can have a hover graph when clicked, If I can't figure this out in R I definitely can in Flourish.
-
-#I tried to combine all of the rows together and it did not work
-
-#University areas

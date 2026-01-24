@@ -9,8 +9,9 @@ This project analyzes Washington, DC 311 service request data across zip codes, 
 1. Clone or download this repository.
 2. Open the project in RStudio.
 3. Ensure all required packages are installed (see below).
-4. Run the data cleaning scripts before running the analysis scripts.
-5. Execute the visualization scripts to reproduce figures.
+4. Download data from Open Data DC, and include in .gitignore file.
+5. Run the data cleaning scripts before running the analysis scripts.
+6. Execute the visualization scripts to reproduce figures.
 
 All scripts are written in R and are intended to be run sequentially.
 
